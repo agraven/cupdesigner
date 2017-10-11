@@ -1,5 +1,5 @@
 "use strict";
-var points = [], canvas, ctx, size, origin;
+var points = [], canvas, ctx, size = {}, origin = {}, mode = 'lines';
 
 function init() {
 	canvas = document.getElementById("main");
@@ -19,16 +19,14 @@ function updateSize() {
 	canvas.width = size.x;
 	canvas.height = size.y;
 }
-function clear() {
-	ctx.clearRect(0, 0, size.x, size.y);
+function reset() {
+	points = [];
 }
 function draw() {
 	updateSize();
-	clear();
+	ctx.clearRect(0, 0, size.x, size.y);
 
 	// Draw grid
-	ctx.lineCap = 'butt';
-	ctx.lineJoin = 'miter';
 	ctx.moveTo(origin.x, 0);
 	ctx.lineTo(origin.x, size.y);
 	ctx.stroke();
@@ -42,13 +40,7 @@ function draw() {
 		ctx.fill();
 	}
 	// Draw defined lines
-	if (points[0] == null) {
-		return;
-	}
-	ctx.linecap = 'round';
-	ctx.lineJoin = 'round';
 	ctx.beginPath();
-	ctx.moveTo(points[0].x, points[0].y)
 	for (let point of points) {
 		ctx.lineTo(point.x, point.y);
 	}
@@ -56,8 +48,13 @@ function draw() {
 }
 function onClick(event) {
 	event = event || window.event;
-	points.push({
-		x: event.layerX - canvas.offsetLeft,
-		y: event.layerY - canvas.offsetTop,
-	});
+	switch (mode) {
+		case 'lines':
+			points.push({
+				x: event.layerX - canvas.offsetLeft,
+				y: event.layerY - canvas.offsetTop,
+			});
+			break;
+		default:
+	}
 }

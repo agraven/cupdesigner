@@ -7,13 +7,19 @@
 		* { margin: 0; padding: 0; }
 		body, html { height: 100%; width: 100%; overflow: hidden; }
 		#main { width: 100%; height: 100%; display: border-box; }
+		#buttons { position: absolute; left: 10px; top: 10px;}
 	</style>
 	<script src="main.js">
 	</script>
 </head>
 <body>
-	<canvas id="main" onresize="updateSize()" onclick="onClick(event)" height="800" width="800">
+	<canvas id="main" onresize="updateSize()" onclick="onClick(event)">
 	</canvas>
+	<p id="buttons">
+		<button type="button" onclick="mode='lines'">Draw lines</button>
+		<button type="button" onclick="mode='points'">Draw points</button>
+		<button type="button" onclick="reset()">Reset</button>
+	</>
 </body>
 <script>
   init();
