@@ -9,8 +9,8 @@ function init() {
 }
 function updateSize() {
 	size = {
-		x: document.documentElement.clientWidth,
-		y: document.documentElement.clientHeight
+		x: 400,
+		y: 400
 	};
 	origin = {
 		x: size.x / 2,
@@ -45,16 +45,35 @@ function draw() {
 		ctx.lineTo(point.x, point.y);
 	}
 	ctx.stroke();
+	
+	
 }
 function onClick(event) {
 	event = event || window.event;
 	switch (mode) {
 		case 'lines':
 			points.push({
-				x: event.layerX - canvas.offsetLeft,
-				y: event.layerY - canvas.offsetTop,
+				x: event.offsetX,
+				y: event.offsetY ,
 			});
 			break;
 		default:
 	}
+}
+
+
+
+function uploadJSCAD()
+{
+	var pointstring=""
+	var factor=1/4
+	
+	for (let p of points){
+		pointstring=pointstring.concat("[",(p.x*factor).toString(),",",(p.y*factor).toString(),"],");
+	}
+	
+		
+	pointstring=pointstring.substring(0,pointstring.length-1)
+	
+	document.getElementById('data3D').value="function main() {	return rotate_extrude( polygon({points:[ "+pointstring+" ]}) )};"	
 }
